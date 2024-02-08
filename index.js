@@ -59,7 +59,8 @@ const updateEmployee = (EmployeeDB, nameInterestEmployee, ...employeeDataArr) =>
   }
   for (const [key, value] of employeeDataArr) {
     if (Object.hasOwn(needEmployeeData, key)) {
-        needEmployeeData[key] = [value];
+        needEmployeeData[key] = value;
+        
     }
   }
   for (const employee of EmployeeDB) {
@@ -75,4 +76,49 @@ const updateEmployee = (EmployeeDB, nameInterestEmployee, ...employeeDataArr) =>
 
 console.log('Работа функии deleteEmployee', JSON.stringify(deleteEmployee('Birdon', EmployeeDB), null, '   '));
 console.log('Работа функии updateEmployee', JSON.stringify(updateEmployee(EmployeeDB, 'Cattington', ['name', 'kittington'], ['post', 'Main Slippers Killer'], ['departament', 'WardRobe']), null, '   '));
-console.log(EmployeeDB)
+
+// Часть 3
+
+let newEmployeeDB = {};
+
+const cloneEmployeeDB = (EmployeeDB) => {
+  newEmployeeDB = structuredClone(EmployeeDB);
+  return newEmployeeDB
+};
+
+const mergeEmployeeDB = (newEmployeeDB, EmployeeDB) => {
+  const mergeNewEmployeeDB = Object.assign(newEmployeeDB, EmployeeDB);
+  return mergeNewEmployeeDB;
+};
+
+console.log('Работа функии cloneEmployeeDB', JSON.stringify(cloneEmployeeDB(EmployeeDB), null, '   '));
+console.log('Работа функии mergeEmployeeDB', JSON.stringify(mergeEmployeeDB(newEmployeeDB, EmployeeDB), null, '   '));
+
+//Для проверки работы следующей функции сделаю нового сотрудника с таким же отделом, как у 'Froggistone'
+newEmployee('Toadston', ' Additional Croacer', 'bouncy room');
+
+const uniqueDepartaments = (EmployeeDB) => {
+  const departamentList = [];
+  for (const employee of EmployeeDB) {
+    const { departament } = employee;
+    if (departament !== undefined && departament !== null && !departamentList.includes(departament))
+    departamentList.push(departament)
+  }
+  return departamentList
+};
+
+console.log('Работа функии uniqueDepartaments', uniqueDepartaments(EmployeeDB));
+
+// Часть 4
+
+const comprasionEmployee = (firstEmployeeDataObj, secondEmployeeDataObj) => {
+  for (const key1 in firstEmployeeDataObj) {
+    for (const key2 in secondEmployeeDataObj)
+    if (firstEmployeeDataObj[key1] === secondEmployeeDataObj[key2]) {
+      console.log(`"${firstEmployeeDataObj[key1]}", у первого сотрудника и "${secondEmployeeDataObj[key2]}" у второго полностью свопадают`)
+    }
+  }
+};
+
+// Данная функция печатает в консоль о том, какие value объектов сотрудников совпали
+comprasionEmployee({name: 'Froggistone', departament: 'bouncy room'}, {name: 'Toadston', departament: 'bouncy room'})
